@@ -11,6 +11,7 @@ import 'dart:convert';
 class HomeScreen extends StatefulWidget {
   UserModel user;
   HomeScreen(this.user);
+
   @override
   State<HomeScreen> createState() => _HomeScreenState();
 }
@@ -19,6 +20,8 @@ class _HomeScreenState extends State<HomeScreen> {
   final dref_temp = FirebaseDatabase.instance.ref().child('temp');
   final dref_smoke = FirebaseDatabase.instance.ref().child('smoke');
   final FlutterTts flutterTts = FlutterTts();
+  User? user = FirebaseAuth.instance.currentUser;
+
   @override
   Widget build(BuildContext context) {
     Future _speak_temp_U() async {
@@ -63,9 +66,10 @@ class _HomeScreenState extends State<HomeScreen> {
       await flutterTts.speak("Smoke in critical range!");
     }
 
+    print(user?.displayName);
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Home'),
+        title: Text('Welcome, ${user?.displayName.toString()}'),
         centerTitle: true,
         backgroundColor: Colors.teal,
         actions: [
